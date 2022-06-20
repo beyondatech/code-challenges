@@ -18,31 +18,21 @@ public class SuccTest
     }
 
     /// <summary>
-    /// Recursive function for process string.
+    /// Depth first recursive function for process string.
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     string Succ(string value)
     {
-        if (value.Length > 1)
+        var head = value.First();
+        if (value.Length <= 1) return Process(head);
+        var tail = value[1..];
+        var result = Succ(tail);
+        if (result.First().Equals('A') || result.First().Equals('a') || result.First().Equals('0'))
         {
-            var first = value.First();
-            var rest = value[1..];
-            var result = Succ(rest);
-            if (result.First().Equals('A') || result.First().Equals('a') || result.First().Equals('0'))
-            {
-                return ToNextInit(first) + result;
-            }
-            else
-            {
-                return first + result;
-            }
+            return ProcessSpecial(head) + result;
         }
-        else
-        {
-            var first = value.First();
-            return ToNext(first);
-        }
+        return head + result;
     }
 
     /// <summary>
@@ -50,7 +40,7 @@ public class SuccTest
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    private string ToNext(char value)
+    private string Process(char value)
     {
         if (char.IsNumber(value))
         {
@@ -58,29 +48,27 @@ public class SuccTest
             var output = number < 9 ? number + 1 : 0;
             return $"{output}";
         }
+
+        if (char.IsLower(value))
+        {
+            var output = value.Equals('z') ? 'a' : Convert.ToChar(Convert.ToInt32(value) + 1);
+            return $"{output}";
+        }
         else
         {
-            if (char.IsLower(value))
-            {
-                var output = value.Equals('z') ? 'a' : Convert.ToChar(Convert.ToInt32(value) + 1);
-                return $"{output}";
-            }
-            else
-            {
-                var output = value.Equals('Z') ? 'A' : Convert.ToChar(Convert.ToInt32(value) + 1);
-                return $"{output}";
-            }
+            var output = value.Equals('Z') ? 'A' : Convert.ToChar(Convert.ToInt32(value) + 1);
+            return $"{output}";
         }
     }
 
     /// <summary>
-    /// Initial add one if run by these particular cases 
+    /// Initial add one if run by these particular cases
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    private string ToNextInit(char value)
+    private string ProcessSpecial(char value)
     {
-        var v = ToNext(value);
+        var v = Process(value);
         return v switch
         {
             "0" => "10",

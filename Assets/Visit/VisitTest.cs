@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using UnityEngine;
 
 public class VisitTest
 {
@@ -36,6 +37,12 @@ public class VisitTest
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Overload method for <see cref="Visit(VisitTest.INode)"/>, for passing on the tab string.
+    /// </summary>
+    /// <param name="root"></param>
+    /// <param name="tab"></param>
+    /// <returns></returns>
     string Visit(INode root, string tab)
     {
         var sb = new StringBuilder();
@@ -45,7 +52,7 @@ public class VisitTest
             tab += "  "; // Indent with 2 spaces for hierarchy
             foreach (var child in root.Children)
             {
-                sb.AppendLine();
+                sb.AppendLine(); // New line foreach child
                 sb.Append(Visit(child, tab));
             }
         }
@@ -76,10 +83,11 @@ public class VisitTest
         public Node(string name, IEnumerable<INode> children, IEnumerable<INode> dependsOn)
         {
             Name = name;
-            var _children = new HashSet<INode>();
             _dependsOn = new HashSet<INode>(dependsOn);
             foreach (var node in _dependsOn)
             {
+                if (node.DependsOn.Contains(this))
+                    Debug.LogWarning($"Circular dependency between {Name} and {node.Name}!");
                 if (reverseDependency.ContainsKey(node))
                 {
                     reverseDependency[node].Add(this);
@@ -90,20 +98,20 @@ public class VisitTest
                 }
             }
 
+            var distinctChildren = new HashSet<INode>();
             foreach (var child in children)
             {
-                _children.Add(child);
-                if (reverseDependency.ContainsKey(child))
+                distinctChildren.Add(child);
+                if (!reverseDependency.ContainsKey(child)) continue;
+                foreach (var node in reverseDependency[child])
                 {
-                    foreach (var node in reverseDependency[child])
-                    {
-                        _children.Add(node);
-                    }
+                    distinctChildren.Add(node);
                 }
             }
+
             // Todo : re-sort empty dependence elements because OrderBy() isn't comparing each node, could be optimised
-            var tail = _children.Where(c => c.DependsOn.Any()).OrderBy(c => c).ToList();
-            var head = _children.Where(c => !c.DependsOn.Any()).ToList();
+            var tail = distinctChildren.Where(c => c.DependsOn.Any()).OrderBy(c => c).ToList();
+            var head = distinctChildren.Where(c => !c.DependsOn.Any()).ToList();
             head.AddRange(tail);
             _orderedChildren = head;
         }
@@ -112,16 +120,18 @@ public class VisitTest
         {
             if (obj is not Node node) throw new InvalidCastException("This node can only compare with its own type!");
 
-            if (_dependsOn.Contains(node))
+            if (DependsOn.Contains(node))
                 return 1; // This instance follows obj in the sort order.
 
-            if (node._dependsOn.Contains(this))
+            if (node.DependsOn.Contains(this))
                 return -1; // This instance precedes obj in the sort order.
 
             return 0; // This instance occurs in the same position in the sort order as obj.
         }
 
-        // For dependency injection
-        private static Dictionary<INode, HashSet<INode>> reverseDependency = new Dictionary<INode, HashSet<INode>>();
+        /// <summary>
+        /// For storing reverse dependency
+        /// </summary>
+        private static Dictionary<INode, HashSet<INode>> reverseDependency = new();
     }
 }

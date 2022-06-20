@@ -24,64 +24,51 @@ public class Subline : MonoBehaviour
         Gizmos.matrix = transform.localToWorldMatrix;
 
         var xSign = Mathf.Sign(sceneViewDirection.x);
+        var xDirection = Vector3.right * xSign;
         var ySign = Mathf.Sign(sceneViewDirection.y);
+        var yDirection = Vector3.up * ySign;
         var zSign = Mathf.Sign(sceneViewDirection.z);
-        var startPoint = Vector3.zero +
+        var zDirection = Vector3.forward * zSign;
+        var startPoint = Vector3.zero -
                          new Vector3(
-                             -xSign * size.x / 2 * unit,
-                             -ySign * size.y / 2 * unit,
-                             -zSign * size.z / 2 * unit);
+                             xSign * size.x / 2 * unit,
+                             ySign * size.y / 2 * unit,
+                             zSign * size.z / 2 * unit);
 
-        // use blue for x-axis
-        Gizmos.color = Color.blue;
-        var xEndPoint = startPoint + Vector3.up * ySign * size.x * unit;
-        //var xEndPoint = startPoint + Vector3.up * ySign * size.x * unit + Vector3.right * xSign * size.x * unit;
-        for (var x = 0; x < size.x; x++)
-        {
-            var xTemp = startPoint + Vector3.up * ySign * x * unit;
-            Gizmos.DrawLine(xTemp, xTemp + Vector3.right * xSign * size.x * unit);
-            Gizmos.DrawLine(startPoint + Vector3.right * xSign * x * unit,
-                xEndPoint + Vector3.right * xSign * x * unit);
-        }
+        GenerateGrid(Color.blue, yDirection, xDirection, startPoint, size.x, unit);
+        GenerateGrid(Color.red, zDirection, yDirection, startPoint, size.y, unit);
+        GenerateGrid(Color.green, xDirection, zDirection, startPoint, size.z, unit);
 
-        Gizmos.DrawLine(startPoint, startPoint + Vector3.right * xSign * size.x * unit);
-        Gizmos.DrawLine(xEndPoint, xEndPoint + Vector3.right * xSign * size.x * unit);
-        Gizmos.DrawLine(startPoint + Vector3.right * xSign * size.x * unit,
-            xEndPoint + Vector3.right * xSign * size.x * unit);
-
-        // use green for y-axis
-        Gizmos.color = Color.red;
-        var yEndPoint = startPoint + Vector3.forward * zSign * size.y * unit;
-        for (var y = 0; y < size.y; y++)
-        {
-            var yTemp = startPoint + Vector3.forward * zSign * y * unit;
-            Gizmos.DrawLine(yTemp, yTemp + Vector3.up * ySign * size.y * unit);
-            Gizmos.DrawLine(startPoint + Vector3.up * ySign * y * unit, yEndPoint + Vector3.up * ySign * y * unit);
-        }
-
-        Gizmos.DrawLine(startPoint, startPoint + Vector3.up * ySign * size.y * unit);
-        Gizmos.DrawLine(yEndPoint, yEndPoint + Vector3.up * ySign * size.y * unit);
-        Gizmos.DrawLine(startPoint + Vector3.up * ySign * size.y * unit,
-            yEndPoint + Vector3.up * ySign * size.y * unit);
-
-        // use blue for z-axis
-        Gizmos.color = Color.green;
-        var zEndPoint = startPoint + Vector3.right * xSign * size.z * unit;
-        for (var z = 0; z < size.z; z++)
-        {
-            var zTemp = startPoint + Vector3.right * xSign * z * unit;
-            Gizmos.DrawLine(zTemp, zTemp + Vector3.forward * zSign * size.z * unit);
-            Gizmos.DrawLine(startPoint + Vector3.forward * zSign * z * unit,
-                zEndPoint + Vector3.forward * zSign * z * unit);
-        }
-
-        Gizmos.DrawLine(startPoint, startPoint + Vector3.forward * zSign * size.z * unit);
-        Gizmos.DrawLine(zEndPoint, zEndPoint + Vector3.forward * zSign * size.z * unit);
-        Gizmos.DrawLine(startPoint + Vector3.forward * zSign * size.z * unit,
-            zEndPoint + Vector3.forward * zSign * size.z * unit);
         // rest Gizmos settings
         Gizmos.color = originColor;
         Gizmos.matrix = originMatrix;
+    }
+
+    /// <summary>
+    /// Generate grid for one dimension. 
+    /// </summary>
+    /// <param name="color"></param>
+    /// <param name="verticalDirection"></param>
+    /// <param name="horizontalDirection"></param>
+    /// <param name="startingPosition"></param>
+    /// <param name="size"></param>
+    /// <param name="unit"></param>
+    private void GenerateGrid(Color color, Vector3 verticalDirection, Vector3 horizontalDirection,
+        Vector3 startingPosition, int size, float unit)
+    {
+        Gizmos.color = color;
+        for (var i = 0; i <= size; i++)
+        {
+            //Draw horizontal lines
+            Gizmos.DrawLine(
+                startingPosition + horizontalDirection * i * unit,
+                (startingPosition + verticalDirection * size + horizontalDirection * i) * unit);
+            //Draw vertical lines
+            Gizmos.DrawLine(
+                startingPosition + verticalDirection * i * unit,
+                (startingPosition + verticalDirection * i + horizontalDirection * size) * unit
+            );
+        }
     }
 #endif
 }

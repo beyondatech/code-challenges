@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5dc08868-3a17-42cc-a1d0-d244ed833bbe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.code-challenges/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.code-challenges/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Subline/Subline.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Subline/Subline.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Succ/SuccTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Succ/SuccTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Visit/VisitTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Visit/VisitTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,8 +76,17 @@
       <option name="presentableId" value="Default" />
       <updated>1655697425126</updated>
       <workItem from="1655697677644" duration="24580000" />
-      <workItem from="1655730999418" duration="5072000" />
+      <workItem from="1655730999418" duration="5319000" />
+      <workItem from="1655745417520" duration="2711000" />
     </task>
+    <task id="LOCAL-00001" summary="Unoptimised answer to all 3 question.">
+      <created>1655736096690</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1655736096690</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -85,7 +95,20 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Unoptimised answer to all 3 question." />
+    <option name="LAST_COMMIT_MESSAGE" value="Unoptimised answer to all 3 question." />
   </component>
 </project>
