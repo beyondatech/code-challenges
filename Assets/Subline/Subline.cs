@@ -62,11 +62,11 @@ public class Subline : MonoBehaviour
             //Draw horizontal lines
             Gizmos.DrawLine(
                 startingPosition + horizontalDirection * i * unit,
-                (startingPosition + verticalDirection * size + horizontalDirection * i) * unit);
+                startingPosition + (verticalDirection * size + horizontalDirection * i) * unit);
             //Draw vertical lines
             Gizmos.DrawLine(
                 startingPosition + verticalDirection * i * unit,
-                (startingPosition + verticalDirection * i + horizontalDirection * size) * unit
+                startingPosition + (verticalDirection * i + horizontalDirection * size) * unit
             );
         }
     }
