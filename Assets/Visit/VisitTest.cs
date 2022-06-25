@@ -23,7 +23,7 @@ public class VisitTest
     var chair = ANode("Chair", children: empty, dependsOn: new[] { desk });
 
     Assert.That(Visit(ANode("Ground", children: new[] { bed, desk, chair }, dependsOn: empty)), Is.EqualTo(expect));
-    Assert.That(Visit(ANode("Ground", children: new[] { desk, desk, bed }, dependsOn: empty)), Is.EqualTo(expect));
+    Assert.That(Visit(ANode("Ground", children: new[] { chair, desk, bed }, dependsOn: empty)), Is.EqualTo(expect));
     Assert.That(Visit(ANode("Ground", children: new[] { chair, bed, desk }, dependsOn: empty)), Is.EqualTo(expect));
   }
 
